@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Letter</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffe6e6; /* Light pink background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('https://scontent.fceb3-1.fna.fbcdn.net/v/t39.30808-6/428073149_3614640615440486_8757009452608761189_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=3635dc&_nc_eui2=AeF2LCqT00CDBYBh85aQPQy2v129U6JKKWe_Xb1TokopZ0B8Xy7B3MWf8RDWFtL22lm4QEr1HuKpqU-Lg6OQROSU&_nc_ohc=0nEUrSLsLuEAX8EKNqE&_nc_ht=scontent.fceb3-1.fna&oh=00_AfBBh_8uWTaPMdtf-mp666GZ-fw-Bl3l5661y-S1v6f9Og&oe=65D09DA3');
+            background-size: cover; /* Adjusted to cover the entire viewport */
+            background-repeat: no-repeat; /* Prevent the background image from repeating */
+            background-position: center; /* Center the background image within the viewport */
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            padding: 5vw; /* Responsive padding */
+            border: 2px solid #ff9999; /* Pink border */
+            background-color: #fff; /* White background */
+            border-radius: 3vw; /* Responsive border radius */
+            box-shadow: 0px 0px 5vw rgba(0, 0, 0, 0.1); /* Soft shadow effect */
+            max-width: 90vw; /* Limit container width */
+            margin: auto; /* Center container */
+        }
+
+        .letter-background {
+            position: absolute;
+            top: -2vw; /* Responsive top position */
+            left: -2vw; /* Responsive left position */
+            width: calc(100% + 4vw); /* Responsive width */
+            height: calc(100% + 4vw); /* Responsive height */
+            background-image: url('https://image.freepik.com/free-vector/valentine-s-day-letter_23-2148877402.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            z-index: -1;
+            opacity: 0.3; /* Adjust opacity as desired */
+            border-radius: 3vw; /* Responsive border radius */
+            visibility: hidden; /* Initially hidden */
+        }
+
+        .heart {
+            cursor: pointer;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            display: inline-block;
+            position: relative;
+        }
+
+        .heart:hover {
+            transform: scale(1.2);
+        }
+
+        .hidden {
+            opacity: 0;
+            display: none;
+            transform: translateY(-50%) scale(0);
+            transform-origin: top;
+        }
+
+        .visible {
+            animation: revealMessage 0.5s forwards, heartMove 0.5s forwards, heartAppear 0.5s forwards;
+        }
+
+        @keyframes revealMessage {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes heartMove {
+            0% {
+                transform: translateY(-50%) scale(0);
+            }
+            100% {
+                transform: translateY(50%);
+            }
+        }
+
+        @keyframes heartAppear {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Custom styling for the message */
+        #message {
+            margin-top: 2vw; /* Responsive margin */
+            padding: 5vw; /* Responsive padding */
+            position: relative; /* Added */
+            top: calc(-2vw - 4vw); /* Responsive top position */
+            overflow-y: auto; /* Enable vertical scroll */
+            max-height: 70vh; /* Set a max height for the message container */
+        }
+
+        /* Custom styling for the heart icon */
+        .heart img {
+            border-radius: 50%; /* Make the heart icon circular */
+            border: 2px solid #ff4d4d; /* Pink border */
+            width: 8vw; /* Responsive size */
+            height: 8vw; /* Responsive size */
+        }
+
+        /* Custom styling for the love letter */
+        .love-letter {
+            display: none; /* Initially hidden */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.8); /* Transparent white background */
+            border: 2px solid #de0c0c; /* Pink border */
+            border-radius: 3vw; /* Responsive border radius */
+            padding: 5vw; /* Responsive padding */
+            width: 50%; /* Responsive width */
+            max-width: 30vw; /* Responsive max width */
+            box-shadow: 0px 0px 5vw rgba(0, 0, 0, 0.1); /* Soft shadow effect */
+            z-index: 2; /* Make it appear above other elements */
+        }
+
+        .opened {
+            display: block;
+            animation: openLetter 1s forwards;
+        }
+
+        @keyframes openLetter {
+            0% {
+                transform: translate(-50%, -50%) rotateX(-90deg);
+                opacity: 0;
+            }
+            100% {
+                transform: translate(-50%, -50%) rotateX(0deg);
+                opacity: 1;
+            }
+        }
+
+        #heart2 {
+            cursor: pointer;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            display: none; /* Initially hidden */
+            position: absolute; /* Position it absolutely */
+            bottom: -2vw; /* Responsive bottom position */
+            right: 11vw; /* Responsive right position */
+            transform: translate(-50%, 50%); /* Center it vertically and horizontally */
+            z-index: 2; /* Ensure it appears above other elements */
+        }
+
+        #heart2:hover {
+            transform: scale(1.2);
+        }
+
+        #heart2 img {
+            border-radius: 50%;
+            border: 2px solid #ff4d4d;
+            width: 8vw; /* Responsive size */
+            height: 8vw; /* Responsive size */
+        }
+
+        #heartCollage {
+            display: none; /* Initially hidden */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3; /* Make it appear above other elements */
+            height: 30vw; /* Responsive height */
+            width:  30vw; /* Responsive width */
+            border: 2px solid #ff4d4d; /* Pink border */
+            border-radius: 3vw; /* Responsive border radius */
+            box-shadow: 0px 0px 5vw rgba(0, 0, 0, 0.3); /* Soft shadow effect */
+            background-color: #fff; /* White background */
+            padding: 2vw; /* Responsive padding */
+            overflow: hidden; /* Hide overflowing content */
+            animation: heartCollageAppear 1s ease forwards, fadeIn 1s ease forwards; /* Added animation */
+        }
+
+        @keyframes heartCollageAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Media query for smaller screens */
+        @media screen and (max-width: 768px) {
+            .love-letter {
+                width: 80%;
+            }
+
+            #heart2 {
+                right: 2vw;
+            }
+
+            #heart2 img {
+                width: 20vw;
+                height: 20vw;
+            }
+        }
+        h1 {
+            font-size: 2.5em; /* Adjust font size */
+            color: #ff4d4d; /* Pink color */
+            margin-bottom: 20px; /* Add some bottom margin */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add text shadow */
+        }
+
+        p {
+            font-size: 1.2em; /* Adjust font size */
+            color: #666; /* Dark gray color */
+            line-height: 1.6; /* Adjust line height */
+            text-align: justify; /* Justify text */
+            padding: 0 20px; /* Add padding */
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="letter-background"></div>
+    <div id="heart" class="heart">
+        <img src="https://cdn-icons-png.freepik.com/512/2589/2589054.png" alt="Heart Icon" width="8vw" height="8vw"> <!-- Medium heart size -->
+    </div>
+    <div id="message" class="hidden">
+        <!-- Your love letter message content here -->
+    </div>
+</div>
+
+<div class="love-letter" id="loveLetter">
+    <!-- Your love letter content here -->
+    <h1>Hi,My Love ,</h1>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Happy Valentine's Day, loveyy! Just a little reminder that you're the sweetest thing in my life. I'm so thankful to have you by my side, and I cherish every moment we share together. Also, lovey, I feel so lucky to have you in my life. You bring so much joy, and I can't imagine it without you. I love you more than words can express, and I'll keep falling for you every single day. Always remember my love that “Success isn't just about what you accomplish, but the obstacles you overcome." Laban lng ta lovey ha mwuahh loveyou so much my lovee. </p>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kenn<3</p>
+    <div id="heart2">
+        <img src="https://cdn-icons-png.freepik.com/512/2589/2589054.png" alt="Heart Icon" width="15vw" height="15vw"> <!-- Larger heart button -->
+    </div>
+</div>
+
+<!-- Heart collage picture -->
+<img id="heartCollage" src="https://scontent.fceb2-1.fna.fbcdn.net/v/t39.30808-6/427540178_3612577565646791_2283218076595312171_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=3635dc&_nc_eui2=AeF8MFWsMsr5YDMhJZX0kKDoznfJdVahcnbOd8l1VqFydoVAs4AfLC3sB5_gMaEKFo5rOzWRp4J38n_sI4_iu2ew&_nc_ohc=yOEKG1ViAZ4AX9lz7nb&_nc_zt=23&_nc_ht=scontent.fceb2-1.fna&oh=00_AfA4echahuFPzCNyxoM5_98eggQmMW0fxAuxoO_5Jmibjw&oe=65D1C6AD"width="50vw" height="50vw"> <!-- Responsive size -->
+
+<script>
+    document.getElementById('heart').addEventListener('click', function() {
+        var message = document.getElementById('message');
+        var background = document.querySelector('.letter-background');
+        var loveLetter = document.getElementById('loveLetter');
+        var heart2 = document.getElementById('heart2');
+
+        message.classList.toggle('hidden');
+        message.classList.toggle('visible');
+        background.style.visibility = message.classList.contains('visible') ? 'visible' : 'hidden';
+        loveLetter.classList.toggle('opened');
+
+        // Show the second heart button after revealing the message
+        heart2.style.display = 'inline-block';
+    });
+
+    document.getElementById('heart2').addEventListener('click', function() {
+        var heartCollage = document.getElementById('heartCollage');
+        heartCollage.style.display = 'block';
+    });
+</script>
+</body>
+</html>
